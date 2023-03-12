@@ -4,17 +4,33 @@ import { User } from '../../utils/types';
 @Injectable()
 export class UsersService {
   private fakeUser = [
-    { id: 1, username: 'ThanhTuan', email: 'tuan.khuat@corize.co.jp' },
-    { id: 2, username: 'Tuan Khuat', email: 'tuan.khuat@corize.co.jp' },
-    { id: 3, username: 'Khanh Ngoc', email: 'tuan.khuat@corize.co.jp' },
-    { id: 4, username: 'Tran Ngoc', email: 'tuan.khuat@corize.co.jp' },
+    { id: 1, username: 'ThanhTuan', email: 'tuan.khuat@corize.co.jp', age: 20 },
+    {
+      id: 2,
+      username: 'Tuan Khuat 1',
+      email: 'tuan.khuat@corize.co.jp',
+      age: 21,
+    },
+    {
+      id: 3,
+      username: 'Khanh Ngoc 3',
+      email: 'tuan.khuat@corize.co.jp',
+      age: 19,
+    },
+    { id: 4, username: 'Tran Ngoc', email: 'tuan.khuat@corize.co.jp', age: 23 },
   ];
+
   fetchUsers() {
     return this.fakeUser;
   }
 
+  sortUsers() {
+    const sortedUser = this.fakeUser.sort((a, b) => a.age - b.age);
+    return sortedUser;
+  }
+
   createUser(user: User) {
-    console.log(this.fakeUser.push(user));
+    return this.fakeUser.push(user);
   }
 
   fetchUserById(id: number) {

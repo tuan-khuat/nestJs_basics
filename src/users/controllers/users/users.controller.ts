@@ -14,9 +14,13 @@ import {
   Put,
   HttpException,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
+import { ValidateCreateUserPipe } from 'src/users/pipes/validate-create-user.pipe';
+import { AuthGuard } from 'src/users/guards/auth.guard';
 
 @Controller('users')
+@UseGuards(AuthGuard)
 export class UsersController {
   constructor(private userService: UsersService) {}
 
@@ -25,15 +29,16 @@ export class UsersController {
     return this.userService.fetchUsers();
   }
 
-  @Get()
+  @Get('sort')
   getUserSortBy(@Query('sortDesc', ParseBoolPipe) sortDesc: boolean) {
-    return { username: 'Tuan', email: 'tuan.khuat@corize.co.jp' };
+    const sortedUser = this.userService.sortUsers();
+    return sortedUser;
   }
 
   @Post('create')
   @UsePipes(new ValidationPipe())
-  createUser(@Body() userData: CreateUserDto) {
-    console.log(userData);
+  createUser(@Body(ValidateCreateUserPipe) userData: CreateUserDto) {
+    console.log(userData.age.toPrecision());
     return this.userService.createUser(userData);
   }
 
